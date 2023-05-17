@@ -1,10 +1,9 @@
 /**
- *  bpe_ranks.h
+ *  TokCounter.h
  */
 #pragma once
 
 #include <string>
-// #include <vector>
 #include <unordered_map>
 
 struct pair_hash {
@@ -16,5 +15,11 @@ struct pair_hash {
 
 using bpe_ranks_t = std::unordered_map<std::pair<std::string, std::string>, uint32_t, pair_hash>;
 
+class TokCounter
+{
+    static const bpe_ranks_t _bpe_ranks;
+public:
 
-bpe_ranks_t bpe_ranks_recive() noexcept;
+    size_t count(const std::string& text) const noexcept;
+    
+};
