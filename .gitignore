@@ -1,0 +1,8 @@
+*.o
+*.so
+*.bin
+*.txt
+*.tgz
+*.deb
+*.h.gch
+
