@@ -1,4 +1,4 @@
-#include "enc/tokenator.h"
+#include "tokenator.h"
 #include <iostream>
 #include <string>
 #include <initializer_list>

@@ -7,7 +7,7 @@ CPP_STD  = -std=c++20
 
 OPT_FLAG = -pedantic -Wall -Wextra -fno-rtti -Wsequence-point
 
-INCLUDES   = -I.
+INCLUDES   = -I. -I../include
 
 CPP_FLAGS  = ${CPP_STD} -O0 -g  ${OPT_FLAG} ${INCLUDES} -DDEBUG_BUILD -c
 LD_FLAGS   = ${OPT_FLAG} -lpthread
@@ -31,9 +31,6 @@ ifeq ($(BUILD),release)
 endif
 
 ############################################################
-# version=$(shell git -C "." describe --tags --candidates=1)
-version="0"
-
 .PHONY: clean release
 
 
@@ -47,10 +44,9 @@ EXECS_BIN := $(patsubst oc/%.o,bin/%.bin,$(EXECS_OBJ))
 
 all: $(EXECS_BIN)
 	@echo
-	@echo "\033[1;36mBuild version ${version_color}${version}\033[1;36m complite \033[0m"
+	@echo "\033[1;36mBuild complite\033[0m"
 
 # Compiling
-
 ${OBJECTS} : oc/%.o : ./%.cpp
 	@mkdir -p $(dir $(@))
 	${CPP} ${CPP_FLAGS} ${ADD_FLAGS} $< -o $@
