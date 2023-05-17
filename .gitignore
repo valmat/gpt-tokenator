@@ -1,8 +1,8 @@
 *.o
 *.so
+*.a
 *.bin
 *.txt
 *.tgz
 *.deb
-*.h.gch
 *~*

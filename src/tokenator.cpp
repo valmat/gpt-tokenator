@@ -8,7 +8,7 @@
 #include <limits>
 #include <utility>
 #include "unicode/unistr.h"
-#include "tokenator.h"
+#include "tokenator.hpp"
 #include "tokenizer.h"
 
 using bpe_ranks_t = Tokenator::bpe_ranks_t;

@@ -1,4 +1,4 @@
-#include "tokenator.h"
+#include "tokenator.hpp"
 
 const Tokenator::bpe_ranks_t Tokenator::_bpe_ranks = {
     {{R"(Ġ)", R"(t)"},0},

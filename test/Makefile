@@ -25,7 +25,7 @@ ifeq ($(BUILD),release)
 	CPP_FLAGS  = ${CPP_STD} -O3 ${OPT_FLAG} ${INCLUDES} -flto -DNDEBUG -c
 	LD_FLAGS   = ${CPP_STD} ${OPT_FLAG} -lpthread -Wl,--no-as-needed -flto
 
-	STRIPBIN = strip
+	STRIPBIN = strip --strip-all
 
     version_color = \033[1;32m
 endif
@@ -56,7 +56,7 @@ ${EXECS_OBJ} : oc/%.o : ./%.cpp
 	${CPP} ${CPP_FLAGS} ${ADD_FLAGS} $< -o $@
 
 # Linking
-LIBS := -licuuc -licui18n
+LIBS := ../libs/libtokenator_cpp.a -licuuc -licui18n
 
 $(EXECS_BIN) : bin/%.bin : oc/%.o $(OBJECTS)
 	@echo ""
