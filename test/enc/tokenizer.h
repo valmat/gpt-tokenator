@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <unicode/regex.h>
+#include <iostream>
 
 class Tokenizer
 {

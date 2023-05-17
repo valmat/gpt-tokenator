@@ -1,6 +1,6 @@
-#include "TokCounter.h"
+#include "tokenator.h"
 
-const bpe_ranks_t TokCounter::_bpe_ranks = {
+const Tokenator::bpe_ranks_t Tokenator::_bpe_ranks = {
     {{R"(Ġ)", R"(t)"},0},
     {{R"(Ġ)", R"(a)"},1},
     {{R"(h)", R"(e)"},2},

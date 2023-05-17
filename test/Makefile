@@ -5,7 +5,7 @@ LD    = clang++
 
 CPP_STD  = -std=c++20
 
-OPT_FLAG =  -pthread -pedantic -Wall -Wextra -fno-rtti -Wsequence-point
+OPT_FLAG = -pedantic -Wall -Wextra -fno-rtti -Wsequence-point
 
 INCLUDES   = -I.
 
@@ -50,7 +50,6 @@ all: $(EXECS_BIN)
 	@echo "\033[1;36mBuild version ${version_color}${version}\033[1;36m complite \033[0m"
 
 # Compiling
-# ADD_FLAGS :=-DVER="\"${version}\"" -pthread
 
 ${OBJECTS} : oc/%.o : ./%.cpp
 	@mkdir -p $(dir $(@))
@@ -61,8 +60,6 @@ ${EXECS_OBJ} : oc/%.o : ./%.cpp
 	${CPP} ${CPP_FLAGS} ${ADD_FLAGS} $< -o $@
 
 # Linking
-# LIBS := -lpthread -lboost_regex
-# LIBS := -lpthread -licuuc -licui18n -licuio -licudata -lre2
 LIBS := -licuuc -licui18n
 
 $(EXECS_BIN) : bin/%.bin : oc/%.o $(OBJECTS)

@@ -1,4 +1,6 @@
-#include "TokCounter.h"
+// #include "types.h"
+#include "tokenator.h"
+#include "tokenizer.h"
 
 #include <iostream>
 #include <string>
@@ -9,7 +11,7 @@
 #include <codecvt>
 #include <locale>
 
-#include "tokenizer.h"
+using bpe_ranks_t = Tokenator::bpe_ranks_t;
 
 std::string byte_encode(uint32_t x) noexcept
 {
@@ -138,7 +140,7 @@ std::vector<std::string> bpe(const std::string& token, const bpe_ranks_t& bpe_ra
 
 
 
-size_t TokCounter::count(const std::string& text) const noexcept
+size_t Tokenator::count(const std::string& text) noexcept
 {
     size_t result = 0;
     Tokenizer toks(text);
