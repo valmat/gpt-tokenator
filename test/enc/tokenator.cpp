@@ -1,6 +1,3 @@
-#include "tokenator.h"
-#include "tokenizer.h"
-
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -8,19 +5,24 @@
 #include <algorithm>
 #include <codecvt>
 #include <locale>
+#include <limits>
+#include <utility>
+#include "unicode/unistr.h"
+#include "tokenator.h"
+#include "tokenizer.h"
 
 using bpe_ranks_t = Tokenator::bpe_ranks_t;
 
 static
 std::string byte_encode(uint32_t x) noexcept
 {
-    uint32_t cs = x;
+    uint32_t encoded_char = x;
     if ((x < 33 || x > 126) && (x < 161 || x > 172) && (x < 174 || x > 255)) {
         uint32_t n = 0;
         for (uint32_t b = 0; b < 256; ++b) {
             if (!((b >= 33 && b <= 126) || (b >= 161 && b <= 172) || (b >= 174 && b <= 255))) {
                 if (b == x) {
-                    cs = 256 + n;
+                    encoded_char = 256 + n;
                     break;
                 }
                 ++n;
@@ -29,7 +31,7 @@ std::string byte_encode(uint32_t x) noexcept
     }
 
     std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
-    return conv.to_bytes(static_cast<char32_t>(cs));
+    return conv.to_bytes(static_cast<char32_t>(encoded_char));
 }
 
 static
@@ -47,12 +49,9 @@ static
 std::set<std::pair<std::string, std::string>> get_pairs(const std::vector<std::string>& words) noexcept
 {
     std::set<std::pair<std::string, std::string>> pairs;
-    if(words.empty()) {
-        return pairs;
-    }
-    std::string prev = words[0];
+    std::string prev = words.empty() ? std::string() : words[0];
     for (size_t i = 1; i < words.size(); ++i) {
-        pairs.insert({prev, words[i]});
+        pairs.emplace(std::pair{prev, words[i]});
         prev = words[i];
     }
     return pairs;
@@ -81,7 +80,7 @@ size_t find(const std::vector<std::string>& where, const std::string& what, int3
             return i;
         }
     }
-    return std::string::npos;
+    return std::numeric_limits<size_t>::max();
 }
 
 static
@@ -117,7 +116,7 @@ std::vector<std::string> bpe(const std::string& token, const bpe_ranks_t& bpe_ra
         std::vector<std::string> new_words;
         for (size_t i = 0; i < words.size();) {
             size_t j = find(words, first, i);
-            if (j == std::string::npos) {
+            if (j == std::numeric_limits<size_t>::max()) {
                 new_words.insert(new_words.end(), words.begin() + i, words.end());
                 break;
             }
