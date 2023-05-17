@@ -1,8 +1,6 @@
-// #include "types.h"
 #include "tokenator.h"
 #include "tokenizer.h"
 
-#include <iostream>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -13,6 +11,7 @@
 
 using bpe_ranks_t = Tokenator::bpe_ranks_t;
 
+static
 std::string byte_encode(uint32_t x) noexcept
 {
     uint32_t cs = x;
@@ -33,6 +32,7 @@ std::string byte_encode(uint32_t x) noexcept
     return conv.to_bytes(static_cast<char32_t>(cs));
 }
 
+static
 std::string encodeTok(const std::string& str) noexcept
 {
     std::string result{};
@@ -43,6 +43,7 @@ std::string encodeTok(const std::string& str) noexcept
     return result;
 }
 
+static
 std::set<std::pair<std::string, std::string>> get_pairs(const std::vector<std::string>& words) noexcept
 {
     std::set<std::pair<std::string, std::string>> pairs;
@@ -57,7 +58,8 @@ std::set<std::pair<std::string, std::string>> get_pairs(const std::vector<std::s
     return pairs;
 }
 
-std::vector<std::string> split_utf8(const std::string str) noexcept
+static
+std::vector<std::string> split_utf8(const std::string& str) noexcept
 {
     icu::UnicodeString u_str = icu::UnicodeString::fromUTF8(str);
     std::vector<std::string> result;
@@ -71,7 +73,8 @@ std::vector<std::string> split_utf8(const std::string str) noexcept
     return result;
 }
 
-size_t _find(const std::vector<std::string>& where, const std::string& what, int32_t statr_index = 0) noexcept
+static
+size_t find(const std::vector<std::string>& where, const std::string& what, int32_t statr_index = 0) noexcept
 {
     for (size_t i = statr_index; i < where.size(); ++i) {
         if( where[i] == what ) {
@@ -81,6 +84,7 @@ size_t _find(const std::vector<std::string>& where, const std::string& what, int
     return std::string::npos;
 }
 
+static
 std::pair<std::string, std::string> get_min_bigram(const std::set<std::pair<std::string, std::string>>& pairs, const bpe_ranks_t& bpe_ranks) noexcept
 {
     uint min_rank = std::numeric_limits<uint>::max();
@@ -99,46 +103,45 @@ std::pair<std::string, std::string> get_min_bigram(const std::set<std::pair<std:
     return min_bigram;
 }
 
+static
 std::vector<std::string> bpe(const std::string& token, const bpe_ranks_t& bpe_ranks) noexcept
 {
-    std::vector<std::string> word = split_utf8(token);
-    auto pairs = get_pairs(word);
+    std::vector<std::string> words = split_utf8(token);
+    auto pairs = get_pairs(words);
 
     while (!pairs.empty()) {
         auto [first, second] = get_min_bigram(pairs, bpe_ranks);;
         if (first.empty() && second.empty()) {
             break;
         }
-        std::vector<std::string> new_word;
-        for (size_t i = 0; i < word.size();) {
-            size_t j = _find(word, first, i);
+        std::vector<std::string> new_words;
+        for (size_t i = 0; i < words.size();) {
+            size_t j = find(words, first, i);
             if (j == std::string::npos) {
-                new_word.insert(new_word.end(), word.begin() + i, word.end());
+                new_words.insert(new_words.end(), words.begin() + i, words.end());
                 break;
             }
-            new_word.insert(new_word.end(), word.begin() + i, word.begin() + j);
+            new_words.insert(new_words.end(), words.begin() + i, words.begin() + j);
             i = j;
 
-            if (word[i] == first && i + 1 < word.size() && word[i + 1] == second) {
-                new_word.push_back(first + second);
+            if (words[i] == first && i + 1 < words.size() && words[i + 1] == second) {
+                new_words.push_back(first + second);
                 i = i + 2;
             } else {
-                new_word.push_back(word[i]);
+                new_words.push_back(words[i]);
                 i = i + 1;
             }
         }
-        word = std::move(new_word);
-        if (word.size() == 1) {
+        words = std::move(new_words);
+        if (words.size() == 1) {
             break;
         } else {
-            pairs = get_pairs(word);
+            pairs = get_pairs(words);
         }        
     }
 
-    return word;
+    return words;
 }
-
-
 
 size_t Tokenator::count(const std::string& text) noexcept
 {

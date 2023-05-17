@@ -11,7 +11,6 @@ struct Tokenator
             return std::hash<T1>()(pair.first) ^ std::hash<T2>()(pair.second);
         }
     };
-
     using bpe_ranks_t = std::unordered_map<std::pair<std::string, std::string>, uint32_t, pair_hash>;
 
     static size_t count(const std::string& text) noexcept;
