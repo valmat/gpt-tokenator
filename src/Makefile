@@ -20,7 +20,7 @@ LD__LTO   = ${LD_FLAGS} -flto
 .PHONY: clean
 
 # all: ../libs/libtokenator_cpp.a ../libs/libtokenator_cpp_lto.a
-all: ../libs/libtokenator_cpp.a
+all: ../libs/libtokenator_cpp.a ../libs/libtokenator.a
 	@echo
 	@echo "\033[1;36mBuild complite\033[0m"
 
@@ -37,13 +37,25 @@ o/bpe_ranks_lte.o : bpe_ranks.cpp
 o/tokenator_lte.o : tokenator.cpp
 	${CPP} -O3 ${CPP_LTO} tokenator.cpp -o o/tokenator_lte.o
 
+o/tokenator_c.o : tokenator_c.cpp
+	${CPP} -O3 ${CPP_FLAGS} tokenator_c.cpp -o o/tokenator_c.o
+
+o/tokenator_c_lte.o : tokenator_c.cpp
+	${CPP} -O3 ${CPP_LTO} tokenator_c.cpp -o o/tokenator_c_lte.o
+
 
 # Linking
 ../libs/libtokenator_cpp.a: o/bpe_ranks.o o/tokenator.o
-	ar rs ../libs/libtokenator_cpp.a o/bpe_ranks.o o/tokenator.o
+	@ar rs ../libs/libtokenator_cpp.a o/bpe_ranks.o o/tokenator.o
 
 ../libs/libtokenator_cpp_lto.a: o/bpe_ranks_lte.o o/tokenator_lte.o
-	ar rs ../libs/libtokenator_cpp_lto.a o/bpe_ranks_lte.o o/tokenator_lte.o
+	@ar rs ../libs/libtokenator_cpp_lto.a o/bpe_ranks_lte.o o/tokenator_lte.o
+
+../libs/libtokenator.a: o/bpe_ranks.o o/tokenator.o o/tokenator_c.o o/tokenator_c.o 
+	@ar rs ../libs/libtokenator.a o/bpe_ranks.o o/tokenator.o o/tokenator_c.o 
+
+../libs/libtokenator_lto.a: o/bpe_ranks_lte.o o/tokenator_lte.o o/tokenator_c_lte.o
+	@ar rs ../libs/libtokenator_lto.a o/bpe_ranks_lte.o o/tokenator_lte.o
 
 clean:
 	@find "./o"      -type f -name '*.o'   -delete

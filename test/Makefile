@@ -37,7 +37,7 @@ endif
 SOURCES   := $(shell find -L . -mindepth 2 -type f -name '*.cpp')
 OBJECTS   := $(patsubst ./%.cpp,oc/%.o,$(SOURCES))
 
-EXECS_SRC  = $(shell find -L . -maxdepth 1 -type f -name '*.cpp')
+EXECS_SRC := $(shell find -L . -maxdepth 1 -type f -name '*.cpp')
 EXECS_OBJ := $(patsubst ./%.cpp,oc/%.o,$(EXECS_SRC))
 EXECS_BIN := $(patsubst oc/%.o,bin/%.bin,$(EXECS_OBJ))
 
