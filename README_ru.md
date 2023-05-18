@@ -79,5 +79,5 @@ int main() {
 - [Go](test/tok_count_go.go)
 - [C#](test/tok_count_cs/Program.cs)
 
-## The MIT License
+## License
 [The MIT License](LICENSE)
