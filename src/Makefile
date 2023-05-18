@@ -9,9 +9,8 @@ CPP_STD  = -std=c++20
 
 OPT_FLAG = -pedantic -Wall -Wextra -fno-rtti -Wsequence-point
 INCLUDES = -I. -I../include
-LIBS     = -licuuc -licui18n
 
-CPP_FLAGS = ${CPP_STD} ${OPT_FLAG} ${INCLUDES} -DNDEBUG -c
+CPP_FLAGS = ${CPP_STD} ${OPT_FLAG} ${INCLUDES} -fPIC -c
 CPP_LTO   = ${CPP_FLAGS} -flto
 LD_FLAGS  = ${OPT_FLAG} 
 LD__LTO   = ${LD_FLAGS} -flto
