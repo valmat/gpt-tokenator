@@ -42,7 +42,6 @@ func main() {
 		defer C.free(unsafe.Pointer(cstr))
 
 		count := int(C.tokenator_count(cstr, C.size_t(len(phrase.text))))
-		// count := int(C.tokenator_count(&phrase.text, C.size_t(len(phrase.text))))
 		fmt.Printf("phrase (%d):\t%s\n", count, phrase.text)
 
 		if count != phrase.count {
