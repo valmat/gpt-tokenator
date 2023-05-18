@@ -15,8 +15,8 @@ class Tokenizer
     bool _active = true;
 
 public:
-    Tokenizer(const std::string& text) noexcept :
-        _input(icu::UnicodeString::fromUTF8(text)),
+    Tokenizer(icu::UnicodeString&& input) noexcept :
+        _input(std::move(input)),
         _matcher(pattern, 0, _status)
     {
         if (U_FAILURE(_status)) {
@@ -27,6 +27,14 @@ public:
         _matcher.reset(_input);
         next();
     }
+
+    Tokenizer(const std::string& text) noexcept :
+        Tokenizer(icu::UnicodeString(icu::UnicodeString::fromUTF8(text)))
+    {}
+
+    Tokenizer(const char* data, size_t len) noexcept :
+        Tokenizer(icu::UnicodeString(icu::UnicodeString::fromUTF8(icu::StringPiece(data, len))))
+    {}
 
     const std::string& current() const &  noexcept { return _current; }
     std::string        current() const && noexcept { return _current; }

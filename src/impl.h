@@ -16,6 +16,7 @@ struct Impl
     using bpe_ranks_t = std::unordered_map<std::pair<std::string, std::string>, uint32_t, pair_hash>;
 
     static size_t count(const std::string& text) noexcept;
+    static size_t count(const char* data, size_t len) noexcept;
 private:
     static const bpe_ranks_t _bpe_ranks;
 };

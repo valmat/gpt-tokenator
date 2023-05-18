@@ -143,11 +143,10 @@ std::vector<std::string> bpe(const std::string& token, const bpe_ranks_t& bpe_ra
 }
 
 namespace tokenator::details {
-
-    size_t Impl::count(const std::string& text) noexcept
+    size_t Impl::count(const char* data, size_t len) noexcept
     {
         size_t result = 0;
-        tokenator::details::Tokenizer toks(text);
+        tokenator::details::Tokenizer toks(data, len);
         for (; !toks.empty(); toks.next()) {
             result += bpe(encodeTok(toks.current()), _bpe_ranks).size();
         }
@@ -155,14 +154,20 @@ namespace tokenator::details {
         return result;
     }
 
+    size_t Impl::count(const std::string& text) noexcept
+    {
+        return count(text.data(), text.size());
+    }
 } // end of namespace tokenator::details
 
 namespace tokenator {
     size_t count(const std::string& text) noexcept
     {
-        
         return tokenator::details::Impl::count(text);
-        // return tokenator::details::Impl::count(std::string(data, len));
     }
-}
 
+    size_t count(const char* data, size_t len) noexcept
+    {
+        return tokenator::details::Impl::count(data, len);
+    }    
+} // end of namespace tokenator
