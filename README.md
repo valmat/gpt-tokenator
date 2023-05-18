@@ -79,5 +79,8 @@ In the [test](test) directory, you can find examples of using the library for di
 - [Go](test/tok_count_go.go)
 - [C#](test/tok_count_cs/Program.cs)
 
+## Source code
+[https://github.com/valmat/gpt-tokenator](https://github.com/valmat/gpt-tokenator)
+
 ## License
 [The MIT License](LICENSE)

@@ -79,5 +79,8 @@ int main() {
 - [Go](test/tok_count_go.go)
 - [C#](test/tok_count_cs/Program.cs)
 
+## Исходный код
+[https://github.com/valmat/gpt-tokenator](https://github.com/valmat/gpt-tokenator)
+
 ## License
 [The MIT License](LICENSE)
