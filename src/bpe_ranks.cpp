@@ -1,6 +1,8 @@
-#include "tokenator.hpp"
+#include "impl.h"
 
-const Tokenator::bpe_ranks_t Tokenator::_bpe_ranks = {
+namespace tokenator::details {
+
+const Impl::bpe_ranks_t Impl::_bpe_ranks = {
     {{R"(Ġ)", R"(t)"},0},
     {{R"(Ġ)", R"(a)"},1},
     {{R"(h)", R"(e)"},2},
@@ -50002,3 +50004,5 @@ const Tokenator::bpe_ranks_t Tokenator::_bpe_ranks = {
     {{R"(Ġinform)", R"(ants)"},49998},
     {{R"(Ġg)", R"(azed)"},49999},
 };
+
+} // end of namespace tokenator::details

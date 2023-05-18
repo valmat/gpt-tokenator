@@ -8,10 +8,10 @@
 #include <limits>
 #include <utility>
 #include "unicode/unistr.h"
-#include "tokenator.hpp"
+#include "impl.h"
 #include "tokenizer.h"
 
-using bpe_ranks_t = Tokenator::bpe_ranks_t;
+using bpe_ranks_t = tokenator::details::Impl::bpe_ranks_t;
 
 static
 std::string byte_encode(uint32_t x) noexcept
@@ -142,13 +142,27 @@ std::vector<std::string> bpe(const std::string& token, const bpe_ranks_t& bpe_ra
     return words;
 }
 
-size_t Tokenator::count(const std::string& text) noexcept
-{
-    size_t result = 0;
-    Tokenizer toks(text);
-    for (; !toks.empty(); toks.next()) {
-        result += bpe(encodeTok(toks.current()), _bpe_ranks).size();
+namespace tokenator::details {
+
+    size_t Impl::count(const std::string& text) noexcept
+    {
+        size_t result = 0;
+        tokenator::details::Tokenizer toks(text);
+        for (; !toks.empty(); toks.next()) {
+            result += bpe(encodeTok(toks.current()), _bpe_ranks).size();
+        }
+
+        return result;
     }
 
-    return result;
+} // end of namespace tokenator::details
+
+namespace tokenator {
+    size_t count(const std::string& text) noexcept
+    {
+        
+        return tokenator::details::Impl::count(text);
+        // return tokenator::details::Impl::count(std::string(data, len));
+    }
 }
+

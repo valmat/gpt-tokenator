@@ -26,7 +26,7 @@ int main() {
         { 197 , "Hello! Вітаю! Здравствуйте! Bonjour! ¡Hola! Ciao! Olá! こんにちは！(Konnichiwa!) 안녕하세요! (Annyeonghaseyo!) 你好！(Nǐ hǎo!) გამარჯობა! (Gamardjoba!) Բարև Ձեզ! (Barev Dzez!) Γεια σας! (Geia sas!) Merhaba! Исәнмесез! (Isänmesez!)"},
     };
     for (const auto& phrase: phrases) {
-        size_t count = Tokenator::count(phrase.second);
+        size_t count = tokenator::count(phrase.second);
         std::cout << "phrase (" << count << " ):\t" << phrase.second <<"\n";
         assert(count == phrase.first);
     }

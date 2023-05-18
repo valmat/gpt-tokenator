@@ -1,9 +1,8 @@
-#include "tokenator.hpp"
-#include "tokenator.hpp"
+#include "impl.h"
 
 extern "C" {
     size_t tokenator_count(const char* data, size_t len)
     {
-        return Tokenator::count(std::string(data, len));
+        return tokenator::details::Impl::count(std::string(data, len));
     }
 }

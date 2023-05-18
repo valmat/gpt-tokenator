@@ -3,6 +3,8 @@
 #include <unicode/regex.h>
 #include <iostream>
 
+namespace tokenator::details {
+
 class Tokenizer
 {
     UErrorCode _status = U_ZERO_ERROR;
@@ -48,3 +50,5 @@ public:
         return _active;
     }
 };
+
+} // end of namespace tokenator::details
