@@ -4,5 +4,6 @@
 *.bin
 *.txt
 *.tgz
+*.bz2
 *.deb
 *~*

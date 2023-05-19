@@ -32,9 +32,9 @@ cd src
 make
 ```
 Compilation takes a long time. Therefore, for your convenience, I have added
-precompiled files in the [libs](libs) directory:
+compressed precompiled files in the [libs](libs) directory:
 
-`libtokenator.a`, `libtokenator_cpp.a`, `libtokenator_lto.a`, and `libtokenator_cpp_lto.a`
+`libtokenator.a`, `libtokenator_cpp.a`
 
 Header files are located in the [include](include) directory.
 

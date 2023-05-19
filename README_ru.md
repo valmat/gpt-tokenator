@@ -32,9 +32,9 @@ cd src
 make
 ```
 Компиляция занимает продолжительное время. Поэтому для вашего удобства я добавил
-предкомпилированные файлы в каталоге [libs](libs):
+заархивированные предкомпилированные файлы в каталоге [libs](libs):
 
-`libtokenator.a`, `libtokenator_cpp.a`, `libtokenator_lto.a` и `libtokenator_cpp_lto.a`
+`libtokenator.a`, `libtokenator_cpp.a`
 
 Заголовочные файлы расположены в каталоге [include](include)
 
