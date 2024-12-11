@@ -8,7 +8,7 @@ namespace tokenator::details {
 class Tokenizer
 {
     UErrorCode _status = U_ZERO_ERROR;
-    icu::UnicodeString pattern = icu::UnicodeString::fromUTF8(R"((?:'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+))");
+    icu::UnicodeString _pattern = icu::UnicodeString::fromUTF8(R"((?:'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+))");
     icu::UnicodeString _input;
     icu::RegexMatcher _matcher;
     std::string _current;
@@ -17,7 +17,7 @@ class Tokenizer
 public:
     Tokenizer(icu::UnicodeString&& input) noexcept :
         _input(std::move(input)),
-        _matcher(pattern, 0, _status)
+        _matcher(_pattern, 0, _status)
     {
         if (U_FAILURE(_status)) {
             std::cerr << "Error creating RegexMatcher: " << u_errorName(_status) << std::endl;
